@@ -5,12 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class ShoptrapApplication {
-
 	public static void main(String[] args) {
-
 		SpringApplication.run(ShoptrapApplication.class, args);
-
-		System.out.println("Hola a todos");
 	}
-
 }
