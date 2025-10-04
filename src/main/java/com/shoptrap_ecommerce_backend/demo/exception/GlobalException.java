@@ -1,9 +1,7 @@
 package com.shoptrap_ecommerce_backend.demo.exception;
 
 import com.shoptrap_ecommerce_backend.demo.dto.DtoApiResponse;
-import com.shoptrap_ecommerce_backend.demo.exception.personalityException.ExceptionEmailAlreadyInUse;
-import com.shoptrap_ecommerce_backend.demo.exception.personalityException.ExceptionNotUserFound;
-import com.shoptrap_ecommerce_backend.demo.exception.personalityException.ExceptionUsernameAlreadyInUse;
+import com.shoptrap_ecommerce_backend.demo.exception.personalityException.*;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,6 +54,35 @@ public class GlobalException {
     public ResponseEntity<DtoApiResponse> ExceptionEmailAlreadyInUse(ExceptionEmailAlreadyInUse ex){
         return ResponseEntity.badRequest().body(new DtoApiResponse(
                 HttpStatus.BAD_REQUEST.value(),"El email ya esta en uso"
+        ));
+    }
+
+    @ExceptionHandler(ExceptionNameCategoryAlreadyExist.class)
+    public ResponseEntity<DtoApiResponse> ExceptionNameCategoryAlreadyExist(ExceptionNameCategoryAlreadyExist ex){
+        return ResponseEntity.badRequest().body(new DtoApiResponse(
+                HttpStatus.BAD_REQUEST.value(),"El nombre de categoria ya existe"
+        ));
+    }
+
+    @ExceptionHandler(ExceptionNotFoundCategory.class)
+    public ResponseEntity<DtoApiResponse> ExceptionNotFoundCategory(ExceptionNotFoundCategory ex){
+        return ResponseEntity.badRequest().body(new DtoApiResponse(
+                HttpStatus.BAD_REQUEST.value(),"No se encontró la categoria para eliminarla"
+        ));
+    }
+
+
+    @ExceptionHandler(ExceptionNotFoundProduct.class)
+    public ResponseEntity<DtoApiResponse> ExceptionNotFoundProduct(ExceptionNotFoundProduct ex){
+        return ResponseEntity.badRequest().body(new DtoApiResponse(
+                HttpStatus.BAD_REQUEST.value(),"No se encontró el producto para eliminarlo"
+        ));
+    }
+
+    @ExceptionHandler(ExceptionNotFoundCarShopping.class)
+    public ResponseEntity<DtoApiResponse> ExceptionNotFoundCarShopping(ExceptionNotFoundCarShopping ex){
+        return ResponseEntity.badRequest().body(new DtoApiResponse(
+                HttpStatus.BAD_REQUEST.value(),"No se encontró el carrito de compras"
         ));
     }
 }

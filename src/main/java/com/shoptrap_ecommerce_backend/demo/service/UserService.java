@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +23,12 @@ public class UserService {
 
     public UserService(RepositoryUser repositoryUser){
         this.repositoryUser = repositoryUser;
+    }
+
+
+    public Optional<UserEntity> findUserById(Long idUser){
+        Optional<UserEntity> user = repositoryUser.findById(idUser);
+        return user;
     }
 
     public void createUser(DtoCreateUser newUser){

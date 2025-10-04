@@ -20,4 +20,5 @@ public class CategoryEntity {
     private Integer cantProducts;
     @ManyToMany(mappedBy = "category")
     private List<ProductEntity> products = new ArrayList<>();
+
 }
