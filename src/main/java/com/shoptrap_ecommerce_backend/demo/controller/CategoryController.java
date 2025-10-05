@@ -20,9 +20,9 @@ public class CategoryController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<DtoApiResponse> getall(@RequestParam Integer page, @RequestParam Integer size){
+    public ResponseEntity<DtoApiResponse> getAll(){
         return ResponseEntity.status(HttpStatus.CREATED).body(new DtoApiResponse(
-                HttpStatus.CREATED.value(),"Catgorias obtenidas", categoryService.getAll(page,size)
+                HttpStatus.CREATED.value(),"Catgorias obtenidas", categoryService.getAll()
         ));
     }
 

@@ -23,5 +23,9 @@ public class ShoppingCarEntity {
     @OneToMany(mappedBy = "shoppingCar")
     private List<ShoppingCarProductEntity> products = new ArrayList<>();
 
+    public void addProductToCart(ShoppingCarProductEntity product){
+        this.products.add(product);
+    }
+
 
 }

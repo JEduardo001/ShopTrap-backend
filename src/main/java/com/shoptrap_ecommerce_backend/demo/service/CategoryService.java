@@ -23,8 +23,8 @@ public class CategoryService {
         this.repositoryCategory = repositoryCategory;
     }
 
-    public List<DtoCategory> getAll(Integer page, Integer size){
-        Page<CategoryEntity> categories = repositoryCategory.findAll(PageRequest.of(page,size));
+    public List<DtoCategory> getAll(){
+        List<CategoryEntity> categories = repositoryCategory.findAll();
 
         return categories.stream().map(category -> new DtoCategory(
                 category.getId(),

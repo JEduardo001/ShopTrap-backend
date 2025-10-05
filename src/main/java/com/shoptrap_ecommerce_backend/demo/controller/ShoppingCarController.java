@@ -23,10 +23,25 @@ public class ShoppingCarController {
     }
 
 
+    @GetMapping("/getCart/{idShoppingCar}")
+    public ResponseEntity<DtoApiResponse> getCart(@PathVariable Long idShoppingCar){
+        return ResponseEntity.ok(
+                new DtoApiResponse(HttpStatus.OK.value(),"Carrito de compra obtenido",shoppingCarService.get(idShoppingCar))
+        );
+    }
+
     @GetMapping("/getAll")
     public ResponseEntity<DtoApiResponse> getAll(@PathVariable Long idShoppingCar){
         return ResponseEntity.ok(
-                new DtoApiResponse(HttpStatus.OK.value(),"Carrito de compra obtenido",shoppingCarService.get(idShoppingCar))
+                new DtoApiResponse(HttpStatus.OK.value(),"Carritos de compra obtenidos",shoppingCarService.getAll(idShoppingCar))
+        );
+    }
+
+    @PostMapping("/buyProducts/{idShoppingCar}")
+    public ResponseEntity<DtoApiResponse> buyProducts(@PathVariable Long idShoppingCar){
+        shoppingCarService.buyProducts(idShoppingCar);
+        return ResponseEntity.ok(
+                new DtoApiResponse(HttpStatus.OK.value(),"Comprada la lista de carrito de compras")
         );
     }
 
@@ -45,10 +60,18 @@ public class ShoppingCarController {
         );
     }
 
+    @PostMapping("/addProductCar/{idProduct}/{idShoppingCart}")
+    public ResponseEntity<DtoApiResponse> addProductCar(@PathVariable Long idProduct,@PathVariable Long idShoppingCart,@RequestParam Integer amountProduct){
+        shoppingCarService.addProduct(idProduct,idShoppingCart,amountProduct);
+        return ResponseEntity.ok(
+                new DtoApiResponse(HttpStatus.OK.value(),"Producto añadido al carrito")
+        );
+    }
 
-    @DeleteMapping("/delete/{idShoppingCar}")
-    public ResponseEntity<DtoApiResponse> delete(@PathVariable Long idShoppingCar){
-        shoppingCarService.delete(idShoppingCar);
+
+    @DeleteMapping("/deleteProductCar/{idShoppingCar}/{idCarProduct}")
+    public ResponseEntity<DtoApiResponse> deleteProductCar(@PathVariable Long idShoppingCar, @PathVariable Long idCarProduct){
+        shoppingCarService.deleteProductFromShoppingCar(idShoppingCar,idCarProduct);
         return ResponseEntity.ok(
                 new DtoApiResponse(HttpStatus.OK.value(),"Carrtio de compras eliminado")
         );

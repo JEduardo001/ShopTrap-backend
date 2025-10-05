@@ -1,8 +1,10 @@
 package com.shoptrap_ecommerce_backend.demo.controller;
 
 import com.shoptrap_ecommerce_backend.demo.dto.DtoApiResponse;
+import com.shoptrap_ecommerce_backend.demo.dto.DtoFilter;
 import com.shoptrap_ecommerce_backend.demo.dto.dtoCreate.DtoCreateProduct;
 import com.shoptrap_ecommerce_backend.demo.dto.dtoCreate.DtoCreateUser;
+import com.shoptrap_ecommerce_backend.demo.dto.dtoEntity.DtoCategory;
 import com.shoptrap_ecommerce_backend.demo.dto.dtoEntity.DtoProduct;
 import com.shoptrap_ecommerce_backend.demo.dto.dtoEntity.DtoUser;
 import com.shoptrap_ecommerce_backend.demo.service.ProductService;
@@ -29,6 +31,8 @@ public class ProductController {
         );
     }
 
+
+
     @PostMapping("/create")
     public ResponseEntity<DtoApiResponse> create(@Valid @RequestBody DtoCreateProduct newProduct){
         productService.create(newProduct);
@@ -38,7 +42,7 @@ public class ProductController {
     }
 
     @PostMapping("/update/{idProduct}")
-    public ResponseEntity<DtoApiResponse> updateUser(@Valid @RequestBody DtoProduct newDataProduct){
+    public ResponseEntity<DtoApiResponse> update(@Valid @RequestBody DtoProduct newDataProduct){
         return ResponseEntity.ok(
                 new DtoApiResponse(HttpStatus.OK.value(),"Producto actualizado", productService.update(newDataProduct))
         );
@@ -46,7 +50,7 @@ public class ProductController {
 
 
     @DeleteMapping("/delete/{idProduct}")
-    public ResponseEntity<DtoApiResponse> deleteUser(@PathVariable Long idProduct){
+    public ResponseEntity<DtoApiResponse> delete(@PathVariable Long idProduct){
         productService.delete(idProduct);
         return ResponseEntity.ok(
                 new DtoApiResponse(HttpStatus.OK.value(),"Producto eliminado")
