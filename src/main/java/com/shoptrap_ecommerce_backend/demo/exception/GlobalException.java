@@ -66,7 +66,7 @@ public class GlobalException {
     @ExceptionHandler(ExceptionNotFoundCategory.class)
     public ResponseEntity<DtoApiResponse> ExceptionNotFoundCategory(ExceptionNotFoundCategory ex){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DtoApiResponse(
-                HttpStatus.NOT_FOUND.value(),"No se encontró la categoria para eliminarla"
+                HttpStatus.NOT_FOUND.value(),"No se encontró la categoria"
         ));
     }
 

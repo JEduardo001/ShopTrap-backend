@@ -40,21 +40,57 @@ public class ProductService {
         return repositoryProduct.findAllByProjection(PageRequest.of(page,size));
     }
 
+    public List<ProductProjection> filtersToApply(Integer page, Integer size, DtoFilter filtersToApply){
+        repositoryCategory.findById(filtersToApply.getIdCategory()).orElseThrow(ExceptionNotFoundCategory::new);
 
+        Page<ProductProjection> products = repositoryProduct.findAllByProjection(PageRequest.of(page,size));
+
+        products.getContent().stream().map(p -> p).forEach(p ->         System.out.println("objeto oooo: " + p));
+        //filter by categories
+        List<ProductProjection> productFiltredByCategory = products.getContent().stream()
+                .filter(p -> p.getCategory().stream()
+                        .anyMatch(c -> c.getId().equals(filtersToApply.getIdCategory())))
+                .toList();
+        //filter if product has a discount
+        List<ProductProjection> productFilteredIfHaveDiscount = productFiltredByCategory.stream().filter(p -> p.getHasDiscount() == filtersToApply.getDiscount()).toList();
+
+        BigDecimal filterPrice = filtersToApply.getPrice();
+        return productFilteredIfHaveDiscount.stream()
+                .filter(p -> p != null
+                        && p.getPrice() != null
+                        && filterPrice != null
+                        && p.getPrice().compareTo(filterPrice) <= 0)
+                .toList();
+
+    }
 
     public DtoProduct create(DtoCreateProduct newProduct){
+        //search if any category does not exist
+        List<Long> categoryIds = newProduct.getCategory().stream()
+                .map(CategoryEntity::getId)
+                .toList();
+
+        List<CategoryEntity> foundCategories = repositoryCategory.findAllById(categoryIds);
+
+        if (foundCategories.size() != categoryIds.size()) {
+            throw new ExceptionNotFoundCategory();
+        }
+
+
         ProductEntity product = new ProductEntity();
         product.setName(newProduct.getName());
         product.setPrice(newProduct.getPrice());
-        product.setDicount(newProduct.getDicount());
+        product.setDicount(newProduct.getDiscount());
         product.setDateCreated(LocalDateTime.now());
+        product.setCategory(newProduct.getCategory());
+        product.setHasDiscount(newProduct.getHasDiscount());
         repositoryProduct.save(product);
 
         DtoProduct dtoProduct = new DtoProduct();
         dtoProduct.setId(product.getId());
         dtoProduct.setPrice(product.getPrice());
         dtoProduct.setDateCreated(product.getDateCreated());
-        dtoProduct.setDicount(product.getDicount());
+        dtoProduct.setDiscount(product.getDicount());
         dtoProduct.setStock(product.getStock());
 
         return dtoProduct;
@@ -65,7 +101,7 @@ public class ProductService {
         ProductEntity product = repositoryProduct.findById(newDataProduct.getId()).orElseThrow(ExceptionNotFoundProduct::new);
         product.setName(newDataProduct.getName());
         product.setPrice(newDataProduct.getPrice());
-        product.setDicount(newDataProduct.getDicount());
+        product.setDicount(newDataProduct.getDiscount());
         product.setStock(newDataProduct.getStock());
 
         repositoryProduct.save(product);

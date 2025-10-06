@@ -109,6 +109,7 @@ public class ShoppingCarService {
                         p.getProduct().getDateCreated(),
                         p.getProduct().getDeletionDate(),
                         p.getProduct().getDicount(),
+                        p.getProduct().getHasDiscount(),
                         p.getProduct().getStock()
                 )
                 ,p.getAmount())).collect(Collectors.toList());

@@ -1,5 +1,6 @@
 package com.shoptrap_ecommerce_backend.demo.dto.dtoEntity;
 
+import com.shoptrap_ecommerce_backend.demo.entity.CategoryEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class DtoProduct {
     private BigDecimal price;
     private LocalDateTime dateCreated;
     private LocalDateTime deletionDate;
-    private Integer dicount;
+    private Integer discount;
+    private Boolean hasDiscount;
     private Integer stock;
 }

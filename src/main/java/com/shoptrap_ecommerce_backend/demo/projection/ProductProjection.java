@@ -10,10 +10,13 @@ public interface ProductProjection {
     Long getId();
     String getName();
     BigDecimal getPrice();
-    LocalDateTime getDateCreated();
-    LocalDateTime getDeletionDate();
-    Integer getDicount();
-    Integer getStock();
-    List<DtoCategory> getCategory();
+    List<CategoryProjection> getCategory();
+    Boolean getHasDiscount();
+
+    interface CategoryProjection {
+        Long getId();
+        String getName();
+    }
 }
+
 

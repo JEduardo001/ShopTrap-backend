@@ -23,6 +23,7 @@ public class ProductEntity {
     private LocalDateTime dateCreated;
     private LocalDateTime deletionDate;
     private Integer dicount;
+    private Boolean hasDiscount;
     private Integer stock;
     @ManyToMany()
     @JoinTable(
@@ -30,6 +31,7 @@ public class ProductEntity {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
+    @ToString.Exclude
     private List<CategoryEntity> category;
 
 

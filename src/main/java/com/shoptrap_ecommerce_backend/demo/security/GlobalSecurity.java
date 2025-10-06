@@ -39,7 +39,7 @@ public class GlobalSecurity {
     public CorsConfigurationSource corsConfiguration(){
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedHeaders(List.of("application","authentication"));
+        config.setAllowedHeaders(List.of("Content-Type","Authorization"));
         config.setAllowedOrigins(List.of("http://localhost:3000"));
         config.setAllowedMethods(List.of("GET","PUT","POST","DELETE","OPTIONS"));
 

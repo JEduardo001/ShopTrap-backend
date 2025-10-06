@@ -9,8 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface RepositoryProduct extends JpaRepository<ProductEntity,Long> {
     Page<ProductProjection> findAllByCategoryId(Pageable pageable, Long idCategory);
-    @Query("SELECT p.id AS id, p.name AS name, p.price AS price " +
-            "FROM ProductEntity p")
+    @Query("SELECT p FROM ProductEntity p JOIN FETCH p.category")
     Page<ProductProjection> findAllByProjection(Pageable pageable);
 
 }

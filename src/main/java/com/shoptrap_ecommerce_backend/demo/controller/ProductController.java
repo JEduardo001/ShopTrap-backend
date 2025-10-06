@@ -31,7 +31,12 @@ public class ProductController {
         );
     }
 
-
+    @PostMapping("/getFiltered")
+    public ResponseEntity<DtoApiResponse> getFiltered(@RequestParam Integer page, @RequestParam Integer size, @RequestBody DtoFilter filtersToApply){
+        return ResponseEntity.ok(
+                new DtoApiResponse(HttpStatus.OK.value(),"Productos obtenidos con filtros aplicados",productService.filtersToApply(page,size,filtersToApply))
+        );
+    }
 
     @PostMapping("/create")
     public ResponseEntity<DtoApiResponse> create(@Valid @RequestBody DtoCreateProduct newProduct){
