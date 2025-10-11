@@ -7,9 +7,11 @@ import com.shoptrap_ecommerce_backend.demo.repository.RepositoryUser;
 import com.shoptrap_ecommerce_backend.demo.exception.personalityException.ExceptionEmailAlreadyInUse;
 import com.shoptrap_ecommerce_backend.demo.exception.personalityException.ExceptionNotUserFound;
 import com.shoptrap_ecommerce_backend.demo.exception.personalityException.ExceptionUsernameAlreadyInUse;
+import org.apache.catalina.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.web.webauthn.management.UserCredentialRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,9 +28,21 @@ public class UserService {
     }
 
 
-    public Optional<UserEntity> findUserById(Long idUser){
-        Optional<UserEntity> user = repositoryUser.findById(idUser);
-        return user;
+    public DtoUser findUserByIdDto(Long idUser){
+        UserEntity user = repositoryUser.findById(idUser).orElseThrow(ExceptionNotUserFound::new);
+
+        DtoUser dtoUser = new DtoUser();
+        dtoUser.setId(user.getId());
+        dtoUser.setEmail(user.getEmail());
+        dtoUser.setName(user.getName());
+        dtoUser.setUsername(user.getUsername());
+        dtoUser.setBirthday(user.getBirthday());
+        dtoUser.setSurname(user.getSurname());
+        return dtoUser;
+    }
+
+    public UserEntity findUserByIdEntity(Long idUser){
+      return repositoryUser.findById(idUser).orElseThrow(ExceptionNotUserFound::new);
     }
 
     public void createUser(DtoCreateUser newUser){
@@ -68,8 +82,15 @@ public class UserService {
 
     }
 
-    public DtoUser updateUser(DtoUser newDataUser, Long idUser){
-        UserEntity user = repositoryUser.findById(idUser).orElseThrow(ExceptionNotUserFound::new);
+    public DtoUser updateUser(DtoUser newDataUser){
+        UserEntity user = repositoryUser.findById(newDataUser.getId()).orElseThrow(ExceptionNotUserFound::new);
+
+        if (repositoryUser.existsByUsernameAndIdNot(newDataUser.getUsername(), newDataUser.getId())) {
+            throw new ExceptionUsernameAlreadyInUse();
+        }
+        if (repositoryUser.existsByEmailAndIdNot(newDataUser.getEmail(), newDataUser.getId())) {
+            throw new ExceptionEmailAlreadyInUse();
+        }
 
         user.setId(newDataUser.getId());
         user.setName(newDataUser.getName());

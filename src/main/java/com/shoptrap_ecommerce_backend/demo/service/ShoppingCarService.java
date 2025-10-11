@@ -91,7 +91,7 @@ public class ShoppingCarService {
     }
 
     public void create(DtoCreateShoppingCar newShoppingCar){
-        userService.findUserById(newShoppingCar.getUser().getId()).orElseThrow(ExceptionNotUserFound::new);
+        userService.findUserByIdDto(newShoppingCar.getUser().getId());
 
         ShoppingCarEntity shoppingCar = new ShoppingCarEntity();
         shoppingCar.setUser(newShoppingCar.getUser());
@@ -148,7 +148,7 @@ public class ShoppingCarService {
 
     public DtoShoppingCar update(DtoShoppingCar newDataShoppingCar){
         ShoppingCarEntity shoppingCar = repositoryShoppingCar.findById(newDataShoppingCar.getId()).orElseThrow(ExceptionNotFoundCarShopping::new);
-        UserEntity user = userService.findUserById(newDataShoppingCar.getUser().getId()).orElseThrow(ExceptionNotUserFound::new);
+        UserEntity user = userService.findUserByIdEntity(newDataShoppingCar.getUser().getId());
 
         shoppingCar.setId(newDataShoppingCar.getId());
         shoppingCar.setUser(user);

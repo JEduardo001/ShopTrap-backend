@@ -20,6 +20,12 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/get/{idUser}")
+    public ResponseEntity<DtoApiResponse> getUser(@PathVariable Long idUser){
+        return ResponseEntity.ok(
+                new DtoApiResponse(HttpStatus.OK.value(),"Usuario obtenido",userService.findUserByIdDto(idUser))
+        );
+    }
 
     @GetMapping("/getAll")
     public ResponseEntity<DtoApiResponse> getAllUsers(@RequestParam Integer page,@RequestParam Integer size ){
@@ -36,10 +42,10 @@ public class UserController {
         );
     }
 
-    @PostMapping("/update/{idUser}")
-    public ResponseEntity<DtoApiResponse> updateUser(@Valid @RequestBody DtoUser newDataUser, @PathVariable Long idUser){
+    @PostMapping("/update")
+    public ResponseEntity<DtoApiResponse> updateUser(@Valid @RequestBody DtoUser newDataUser){
         return ResponseEntity.ok(
-                new DtoApiResponse(HttpStatus.OK.value(),"Usuario actualizado", userService.updateUser(newDataUser,idUser))
+                new DtoApiResponse(HttpStatus.OK.value(),"Usuario actualizado", userService.updateUser(newDataUser))
         );
     }
 

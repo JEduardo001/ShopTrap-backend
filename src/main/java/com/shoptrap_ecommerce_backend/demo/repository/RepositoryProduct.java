@@ -13,4 +13,3 @@ public interface RepositoryProduct extends JpaRepository<ProductEntity,Long> {
     Page<ProductProjection> findAllByProjection(Pageable pageable);
 
 }
-
