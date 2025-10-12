@@ -4,6 +4,7 @@ import com.shoptrap_ecommerce_backend.demo.dto.DtoApiResponse;
 import com.shoptrap_ecommerce_backend.demo.dto.dtoCreate.DtoCreateUser;
 import com.shoptrap_ecommerce_backend.demo.dto.dtoEntity.DtoUser;
 import com.shoptrap_ecommerce_backend.demo.repository.RepositoryUser;
+import com.shoptrap_ecommerce_backend.demo.service.AuthService;
 import com.shoptrap_ecommerce_backend.demo.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final AuthService authService;
 
-    public UserController(UserService userService){
+
+    public UserController(UserService userService,AuthService authService){
         this.userService = userService;
+        this.authService = authService;
     }
 
     @GetMapping("/get/{idUser}")
@@ -31,14 +35,6 @@ public class UserController {
     public ResponseEntity<DtoApiResponse> getAllUsers(@RequestParam Integer page,@RequestParam Integer size ){
         return ResponseEntity.ok(
                 new DtoApiResponse(HttpStatus.OK.value(),"Usuarios obtenidos",userService.getUsers(page,size))
-        );
-    }
-
-    @PostMapping("/createUser")
-    public ResponseEntity<DtoApiResponse> createUser(@Valid @RequestBody DtoCreateUser newUser){
-        userService.createUser(newUser);
-        return ResponseEntity.ok(
-                new DtoApiResponse(HttpStatus.OK.value(),"Usuario Creado")
         );
     }
 

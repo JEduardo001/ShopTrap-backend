@@ -4,6 +4,7 @@ import com.shoptrap_ecommerce_backend.demo.dto.DtoApiResponse;
 import com.shoptrap_ecommerce_backend.demo.exception.personalityException.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -103,6 +104,13 @@ public class GlobalException {
     public ResponseEntity<DtoApiResponse> ExceptionInvalidQuantity(ExceptionInvalidQuantity ex){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DtoApiResponse(
                 HttpStatus.BAD_REQUEST.value(),"No hay stock del producto suficiente para comprar. id del producto: " + ex.getMessage()
+        ));
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<DtoApiResponse> BadCredentialsException(BadCredentialsException ex){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new DtoApiResponse(
+                HttpStatus.UNAUTHORIZED.value(),"Credenciales Incorrectas"
         ));
     }
 

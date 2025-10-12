@@ -45,26 +45,11 @@ public class UserService {
       return repositoryUser.findById(idUser).orElseThrow(ExceptionNotUserFound::new);
     }
 
-    public void createUser(DtoCreateUser newUser){
-        //hashear contrasena falta
-
-        if(repositoryUser.findByUsername(newUser.getUsername()).isPresent()){
-            throw new ExceptionUsernameAlreadyInUse();
-        }
-
-        if(repositoryUser.findByEmail(newUser.getEmail()).isPresent()){
-            throw new ExceptionEmailAlreadyInUse();
-        }
-
-        UserEntity user = new UserEntity();
-        user.setName(newUser.getName());
-        user.setEmail(newUser.getEmail());
-        user.setUsername(newUser.getUsername());
-        user.setPassword(newUser.getPassword());
-        user.setSurname(newUser.getSurname());
-
-        repositoryUser.save(user);
+    public UserEntity findUserByUsername(String username){
+        return repositoryUser.findByUsername(username).orElseThrow(ExceptionNotUserFound::new);
     }
+
+
 
     public List<DtoUser> getUsers(Integer page, Integer size){
         Pageable pageable = PageRequest.of(page, size);
